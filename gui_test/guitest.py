@@ -8,10 +8,11 @@ defaultcolor = "#2596be"
 
 window.title("SPLASH")
 window.geometry("800x540")
+#window.configure(background="white")
 
 
-
-my_img = ImageTk.PhotoImage(Image.open("PRJ3\gui_test\icons\drinkicon.png"))
+#EDIT PICTURE PATH!
+my_img = ImageTk.PhotoImage(Image.open("/Users/christian/PRJ3/gui_test/icons/drinkicon.png"))
 my_label = tk.Label(image=my_img)
 #my_label.pack()
 
@@ -29,8 +30,8 @@ mixDrinkButton = tk.Button(
     text="MIX DRINK",
     fg="black",
     bg=defaultcolor,
-    width = 25,
-    height = 25,
+    # width = 25,
+    # height = 25,
     padx = 10,
     command=mixDrinkButtonClicked
 )
@@ -43,8 +44,8 @@ removeDrinkButton = tk.Button(
     text="ADD DRINK",
     fg="black",
     bg=defaultcolor,
-    width = 25,
-    height = 25,
+    # width = 25,
+    # height = 25,
     command=addDrinkButtonClicked
 )
 
@@ -56,13 +57,10 @@ addDrinkButton = tk.Button(
     text="REMOVE DRINK",
     fg="black",
     bg=defaultcolor,
-    width = 25,
-    height = 25,
+    # width = 25,
+    # height = 25,
     command=removeDrinkButtonClicked
 )
-
-
-
 
 # entry = tk.Entry(
 #     fg = "black",
@@ -70,15 +68,13 @@ addDrinkButton = tk.Button(
 #     width=30
 # )
 
-
-
 #homescreen
 
 def homescreen():
-    Header.place(relheight= 0.1, relwidth=0.5)
-    mixDrinkButton.place(relheight = 0.5,relwidth=0.1)
-    addDrinkButton.place(relheight = 0.5,relwidth=0.5)
-    removeDrinkButton.place(relheight = 0.5,relwidth=0.8)
+    Header.place(rely= 0.1, relx=0.3)
+    mixDrinkButton.place(rely = 0.4,relx=0.075, height = 200, width = 200)
+    addDrinkButton.place(rely = 0.4,relx=0.375, height = 200, width = 200)
+    removeDrinkButton.place(rely = 0.4,relx=0.675, height = 200, width = 200)
     
 
 homescreen()
