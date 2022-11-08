@@ -46,7 +46,7 @@ mixDrinkButton = tk.Button(
 )
 
 addDrinkButton = tk.Button(
-    text="REMOVE DRINK",
+    text="ADD DRINK",
     font = buttonFont,
     fg="black",
     bg=buttonColor,
@@ -54,7 +54,7 @@ addDrinkButton = tk.Button(
 )
 
 removeDrinkButton = tk.Button(
-    text="ADD DRINK",
+    text="REMOVE DRINK",
     font = buttonFont,
     fg="black",
     bg=buttonColor,
