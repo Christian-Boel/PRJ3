@@ -26,9 +26,9 @@ def homescreenBtnPressed(btn): #Button pressed while on homescreen
             #myLabel = tk.Label(root,text="mix drink clicked!")
             #myLabel.pack()
         case "add":
-            #addDrinkMenu()
-            myLabel = tk.Label(root,text="Add drink clicked!")
-            myLabel.pack()
+            addDrinkMenu()
+            #myLabel = tk.Label(root,text="Add drink clicked!")
+            #myLabel.pack()
 
         case "remove":
             #removeDrinkMenu()
@@ -46,7 +46,7 @@ mixDrinkButton = tk.Button(
 )
 
 addDrinkButton = tk.Button(
-    text="REMOVE DRINK",
+    text="ADD DRINK",
     font = buttonFont,
     fg="black",
     bg=buttonColor,
@@ -54,7 +54,7 @@ addDrinkButton = tk.Button(
 )
 
 removeDrinkButton = tk.Button(
-    text="ADD DRINK",
+    text="REMOVE DRINK",
     font = buttonFont,
     fg="black",
     bg=buttonColor,
@@ -91,6 +91,32 @@ def mixDrinkMenu():
     clearScreen()
     home_button.place(y = 400,x = 0)
     back_button.place(y=400,x = 720)
+
+def addDrinkMenu():
+    clearScreen()
+    home_button.place(y = 400,x = 0)
+    back_button.place(y=400,x = 720)
+    #1 slider
+    w1 = tk.Scale(root, from_=0, to=100,tickinterval=10, orient="horizontal")
+    w1.set(0)
+    w1.place(relx=0.2, rely=0.1, width=600)
+    sliderlabel1 = tk.Label(root, text = "cola", font=(24)).place(relx=0.1, rely=0.14)
+    #2 slider
+    w2 = tk.Scale(root, from_=0, to=100,tickinterval=10, orient="horizontal")
+    w2.set(0)
+    w2.place(relx=0.2, rely=0.25, width=600)
+    sliderlabel2 = tk.Label(root, text = "rom", font=(24)).place(relx=0.1, rely=0.29)
+    #3 slider
+    w3 = tk.Scale(root, from_=0, to=100,tickinterval=10, orient="horizontal")
+    w3.set(0)
+    w3.place(relx=0.2, rely=0.4, width=600)
+    sliderlabel3 = tk.Label(root, text = "juice", font=(24)).place(relx=0.1, rely=0.44)
+    #4 slider
+    w4 = tk.Scale(root, from_=0, to=100,tickinterval=10, orient="horizontal")
+    w4.set(0)
+    w4.place(relx=0.2, rely=0.55, width=600)
+    sliderlabel4 = tk.Label(root, text = "vodka", font=(24)).place(relx=0.1, rely=0.59)
+
 
 #run program - start in home menu
 homeMenu()
