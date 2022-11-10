@@ -19,21 +19,19 @@ Header = tk.Label(
 def homeBtnPressed(): #go home button
     homeMenu()
 
-def homescreenBtnPressed(btn): #Button pressed while on homescreen
+def btnPressed(btn): #Button pressed while on homescreen
     match btn:
+        case "home":
+            homeMenu()
         case "mix":
             mixDrinkMenu()
             #myLabel = tk.Label(root,text="mix drink clicked!")
             #myLabel.pack()
         case "add":
-            #addDrinkMenu()
-            myLabel = tk.Label(root,text="Add drink clicked!")
-            myLabel.pack()
+            addDrinkMenu()
 
-        case "remove":
+        #case "remove":
             #removeDrinkMenu()
-            myLabel = tk.Label(root,text="Remove drink clicked!")
-            myLabel.pack()
 
 
 #define buttons
@@ -42,7 +40,7 @@ mixDrinkButton = tk.Button(
     font = buttonFont,
     fg="black",
     bg=buttonColor,
-    command=lambda: homescreenBtnPressed("mix")
+    command=lambda: btnPressed("mix")
 )
 
 addDrinkButton = tk.Button(
@@ -50,7 +48,7 @@ addDrinkButton = tk.Button(
     font = buttonFont,
     fg="black",
     bg=buttonColor,
-    command=lambda: homescreenBtnPressed("add")
+    command=lambda: btnPressed("add")
 )
 
 removeDrinkButton = tk.Button(
@@ -58,7 +56,7 @@ removeDrinkButton = tk.Button(
     font = buttonFont,
     fg="black",
     bg=buttonColor,
-    command=lambda: homescreenBtnPressed("remove")
+    command=lambda: btnPressed("remove")
 )
 
 
@@ -67,7 +65,7 @@ removeDrinkButton = tk.Button(
 home_img = ImageTk.PhotoImage(Image.open(r"gui_test/icons/white_homeicon_80x80.png"))
 home_button = tk.Button(
     image=home_img,
-    command= homeBtnPressed
+    command= lambda: btnPressed("home")
     )
 
 back_img = ImageTk.PhotoImage(Image.open(r"gui_test/icons/arrow_original_80x80.png"))
@@ -91,6 +89,43 @@ def mixDrinkMenu():
     clearScreen()
     home_button.place(y = 400,x = 0)
     back_button.place(y=400,x = 720)
+
+# class Slider:
+#     def __init__(self,relX,relY,name,nameX,nameY):
+#         self.name = name
+#         self.scale = tk.Scale(from_=0, to=100,tickinterval=10, orient="horizontal" ).set(0)
+#         self.label = tk.Label(root, text = name, font=(24)).place(relx=0.1, rely=0.14)
+    
+#     def printSlider(relx, rely):
+        
+#     def printName(relX,relY):
+
+
+
+def addDrinkMenu():
+    clearScreen()
+    home_button.place(y = 400,x = 0)
+    back_button.place(y=400,x = 720)
+
+    sliderCount = 4
+    sliderList = []
+    sliderLabelList = []
+    sliderValueList = []
+    sliderXvalue = 0.15
+    sliderYvalues = [0.1, 0.25, 0.4 0.55]
+    sliderLabelNames = ["Cola", "Rom", "Juice","Vodka"]
+    fontSize = 24
+    sliderWidth = 600
+    nameXvalue = 0.1    
+    nameYvalues = [0.14,0.29, 0.44, 0.59]
+
+    for i in range(sliderCount):
+        sliderList.append(tk.Scale(root,from_=0, to=100,tickinterval=10, orient="horizontal" ))
+        sliderList[i].set(0)
+        sliderList[i].place(relx = sliderXvalue, rely = sliderYvalues[i], width = sliderWidth)
+        sliderLabelList.append(tk.Label(root,text = sliderLabelNames[i],font=(fontSize)))
+        sliderLabelList[i].place(relx = nameXvalue, rely = nameYvalues[i])
+    
 
 #run program - start in home menu
 homeMenu()
