@@ -19,7 +19,8 @@ Header = tk.Label(
 def homeBtnPressed(): #go home button
     homeMenu()
 
-def homescreenBtnPressed(btn): #Button pressed while on homescreen
+
+def btnPressed(btn): #Button pressed while on homescreen
     match btn:
         case "mix":
             mixDrinkMenu()
@@ -34,6 +35,9 @@ def homescreenBtnPressed(btn): #Button pressed while on homescreen
             #removeDrinkMenu()
             myLabel = tk.Label(root,text="Remove drink clicked!")
             myLabel.pack()
+        case "addDrinkConfirmed":
+
+
 
 
 #define buttons
@@ -42,7 +46,7 @@ mixDrinkButton = tk.Button(
     font = buttonFont,
     fg="black",
     bg=buttonColor,
-    command=lambda: homescreenBtnPressed("mix")
+    command=lambda: btnPressed("mix")
 )
 
 addDrinkButton = tk.Button(
@@ -50,7 +54,7 @@ addDrinkButton = tk.Button(
     font = buttonFont,
     fg="black",
     bg=buttonColor,
-    command=lambda: homescreenBtnPressed("add")
+    command=lambda: btnPressed("add")
 )
 
 removeDrinkButton = tk.Button(
@@ -58,7 +62,15 @@ removeDrinkButton = tk.Button(
     font = buttonFont,
     fg="black",
     bg=buttonColor,
-    command=lambda: homescreenBtnPressed("remove")
+    command=lambda: btnPressed("remove")
+)
+
+addDrinkConfirm = tk.Button(
+    text="CONFIRM",
+    font = buttonFont,
+    fg="black",
+    bg=buttonColor,
+    command=lambda: btnPressed("addDrinkConfirmed")
 )
 
 
@@ -94,10 +106,12 @@ def mixDrinkMenu():
     home_button.place(y = 400,x = 0)
     back_button.place(y=400,x = 720)
 
+#addDrinkMenu
 def addDrinkMenu():
     clearScreen()
     home_button.place(y = 400,x = 0)
     back_button.place(y=400,x = 720)
+    addDrinkConfirm.place(relx=0.5, rely=0.75)
     #1 slider
     w1 = tk.Scale(root, from_=0, to=100,tickinterval=10, orient="horizontal")
     w1.set(0)
@@ -116,6 +130,11 @@ def addDrinkMenu():
     w3.place(relx=0.2, rely=0.4, width=600)
     sliderlabel3 = tk.Label(root, text = "juice", font=(24)).place(relx=0.1, rely=0.44)
     sliderValue3 = w3.get()
+
+def addDrinkConfirmed():
+    clearScreen()
+    home_button.place(y = 400,x = 0)
+    back_button.place(y=400,x = 720)
     
 
 #run program - start in home menu
