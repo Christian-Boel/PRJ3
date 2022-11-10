@@ -62,6 +62,8 @@ removeDrinkButton = tk.Button(
 )
 
 
+
+
 #EDIT PICTURE PATH!
 
 home_img = ImageTk.PhotoImage(Image.open(r"gui_test/icons/white_homeicon_80x80.png"))
@@ -114,12 +116,7 @@ def addDrinkMenu():
     w3.place(relx=0.2, rely=0.4, width=600)
     sliderlabel3 = tk.Label(root, text = "juice", font=(24)).place(relx=0.1, rely=0.44)
     sliderValue3 = w3.get()
-    #4 slider
-    w4 = tk.Scale(root, from_=0, to=100,tickinterval=10, orient="horizontal")
-    w4.set(0)
-    w4.place(relx=0.2, rely=0.55, width=600)
-    sliderlabel4 = tk.Label(root, text = "vodka", font=(24)).place(relx=0.1, rely=0.59)
-    sliderValue4 = w4.get()
+    
 
 #run program - start in home menu
 homeMenu()
