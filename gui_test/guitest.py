@@ -107,12 +107,15 @@ def addDrinkMenu():
     home_button.place(y = 400,x = 0)
     back_button.place(y=400,x = 720)
 
+    label = tk.Label(text="Choose drink content",font=buttonFont)
+    label.place(relx = 0.4, rely = 0.1)
+
     sliderCount = 4
     sliderList = []
     sliderLabelList = []
     sliderValueList = []
     sliderXvalue = 0.15
-    sliderYvalues = [0.1, 0.25, 0.4 0.55]
+    sliderYvalues = [0.2, 0.35, 0.5, 0.65]
     sliderLabelNames = ["Cola", "Rom", "Juice","Vodka"]
     fontSize = 24
     sliderWidth = 600
@@ -120,11 +123,11 @@ def addDrinkMenu():
     nameYvalues = [0.14,0.29, 0.44, 0.59]
 
     for i in range(sliderCount):
-        sliderList.append(tk.Scale(root,from_=0, to=100,tickinterval=10, orient="horizontal" ))
+        sliderList.append(tk.Scale(root,from_=0, to=100,tickinterval=20, orient="horizontal" ))
         sliderList[i].set(0)
         sliderList[i].place(relx = sliderXvalue, rely = sliderYvalues[i], width = sliderWidth)
         sliderLabelList.append(tk.Label(root,text = sliderLabelNames[i],font=(fontSize)))
-        sliderLabelList[i].place(relx = nameXvalue, rely = nameYvalues[i])
+        sliderLabelList[i].place(relx = nameXvalue, rely = sliderYvalues[i]+0.04)
     
 
 #run program - start in home menu
