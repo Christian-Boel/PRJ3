@@ -1,4 +1,8 @@
 import time
-while 1: 
-    print("Hello world")
-    time.sleep(2)
+
+
+def sendFunction():
+    variabel = "hello world"
+    while 1:
+        print("Hello world")
+        time.sleep(2)
