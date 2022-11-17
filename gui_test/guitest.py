@@ -17,21 +17,22 @@ sliderLabelList = []
 sliderValueList = []
 
 class Drink():
-    def __init__(self,name = "Default",arg1 = 100,arg2 = 0,arg3 = 0):
-        self.name = "Temporary"
-        self.arg1 = 50
-        self.arg2 = 25
-        self.arg3 = 25
-    def setRatio(self,arg1,arg2,arg3):
-        self.arg1 = arg1
-        self.arg2 = arg2
-        self.arg3 = arg3
+    def __init__(self,name = "Default",colaRatio = 100,rumRatio = 0,vodkaRatio = 0):
+        self.name = name
+        self.colaRatio = colaRatio
+        self.rumRatio = rumRatio
+        self.vodkaRatio = vodkaRatio
+    def setRatio(self,colaRatio,rumRatio,vodkaRatio):
+        self.colaRatio = colaRatio
+        self.rumRatio = rumRatio
+        self.vodkaRatio = vodkaRatio
     def setName(self,name):
         self.name = name
 
-
 drinkList = []
 
+rumCoke = Drink("rumCoke",80,20,0)
+vodkaCoke = Drink("vodkaCoke",80,0,20)
 
 Header = tk.Label(text="SPLASH",font=headerFont,foreground="black")
 
@@ -59,8 +60,6 @@ def updateSliderValueList():
     for i in range(3):
         sliderValueList.append(sliderList[i].get())
     
-
-
 #define buttons
 mixDrinkButton = tk.Button(text="MIX DRINK",font = buttonFont,fg="black",bg=buttonColor,
 command=lambda: btnPressed("mix")
@@ -73,7 +72,6 @@ command=lambda: btnPressed("add")
 removeDrinkButton = tk.Button(text="REMOVE DRINK",font = buttonFont,fg="black",bg=buttonColor,
 command=lambda: btnPressed("remove")
 )
-
 
 #EDIT PICTURE PATH!
 
@@ -90,6 +88,10 @@ back_button = tk.Button(image=back_img)
 def clearScreen():
     for widget in root.winfo_children():
         widget.place_forget()
+
+def addMenuButtons():
+    home_button.place(y = 400,x = 0)
+    back_button.place(y=400,x = 720)
 
 def homeMenu():
     clearScreen()
@@ -136,9 +138,7 @@ def addDrinkMenu():
     sliderValueList.clear()
 
     clearScreen()
-    home_button.place(y = 400,x = 0)
-    back_button.place(y=400,x = 720)
-    
+    addMenuButtons()
 
     for i in range(sliderCount):
         sliderList.append(tk.Scale(root,from_=0, to=100,tickinterval=20, orient="horizontal" ))
@@ -151,7 +151,15 @@ def addDrinkMenu():
 
 def addDrinkConfirmationMenu():
     label = tk.Label(text = "You selected:", font = normalFont)
+    label1 = tk.Label(text = "Cola: " + str(sliderValueList[0]) + " %",font = buttonFont)
+    label2 = tk.Label(text = "Rom: " + str(sliderValueList[1]) + " %", font = buttonFont)
+    label3 = tk.Label(text = "Vodka: " + str(sliderValueList[2]) + " %", font = buttonFont)
     
+    label.place(relx = 0.2,rely = 0.1)
+    label1.place(relx = 0.4, rely = 0.25)
+    label2.place(relx = 0.4, rely = 0.45)
+    label3.place(relx = 0.4, rely = 0.65)
+
 #run program - start in home menu
 homeMenu()
 root.mainloop()
