@@ -54,6 +54,9 @@ def btnPressed(btn): #Button pressed while on homescreen
         case "drinkAddedContinue":
             updateSliderValueList()
             addDrinkConfirmationMenu()
+        case "addDrinkConfirm":
+            print("Drink added")
+            
 
 def updateSliderValueList():
     sliderValueList.clear()
@@ -150,15 +153,20 @@ def addDrinkMenu():
     addDrinkContinuedButton.place(relx = 0.3, rely = 0.65, height=100, width= 200)
 
 def addDrinkConfirmationMenu():
-    label = tk.Label(text = "You selected:", font = normalFont)
-    label1 = tk.Label(text = "Cola: " + str(sliderValueList[0]) + " %",font = buttonFont)
-    label2 = tk.Label(text = "Rom: " + str(sliderValueList[1]) + " %", font = buttonFont)
-    label3 = tk.Label(text = "Vodka: " + str(sliderValueList[2]) + " %", font = buttonFont)
-    
+    clearScreen()
+    confirmButton = tk.Button(text="CONFIRM",font = buttonFont)
+    addMenuButtons()
+    label = tk.Label(text = "You selected these ingredients:", font = "arial 35 bold")
+    label1 = tk.Label(text = "Cola: " + str(sliderValueList[0]) + " %",font = normalFont)
+    label2 = tk.Label(text = "Rom: " + str(sliderValueList[1]) + " %", font = normalFont)
+    label3 = tk.Label(text = "Vodka: " + str(sliderValueList[2]) + " %", font = normalFont)
+
     label.place(relx = 0.2,rely = 0.1)
     label1.place(relx = 0.4, rely = 0.25)
-    label2.place(relx = 0.4, rely = 0.45)
-    label3.place(relx = 0.4, rely = 0.65)
+    label2.place(relx = 0.4, rely = 0.40)
+    label3.place(relx = 0.4, rely = 0.55)
+    confirmButton.place(relx = 0.35,rely = 0.65, height=100, width=200,
+    command = lambda: btnPressed("addDrinkConfirm"))
 
 #run program - start in home menu
 homeMenu()
