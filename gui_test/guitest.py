@@ -40,21 +40,20 @@ def homeBtnPressed(): #go home button
     homeMenu()
 
 def btnPressed(btn): #Button pressed while on homescreen
-    match btn:
-        case "home":
+        if btn == "home":
             homeMenu()
-        case "mix":
+        if btn == "mix":
             mixDrinkMenu()
             #myLabel = tk.Label(root,text="mix drink clicked!")
             #myLabel.pack()
-        case "add":
+        if btn == "add":
             addDrinkMenu()
         #case "remove":
             #removeDrinkMenu()
-        case "drinkAddedContinue":
+        if btn == "drinkAddedContinue":
             updateSliderValueList()
             addDrinkConfirmationMenu()
-        case "addDrinkConfirm":
+        if btn == "addDrinkConfirm":
             print("Drink added")
             
 
