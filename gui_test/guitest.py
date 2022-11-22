@@ -10,7 +10,6 @@ buttonFont = 'Arial 15'
 
 root.title("SPLASH")
 root.geometry("800x480")
-#root.configure(background="white")
 
 sliderList = []
 sliderLabelList = []
@@ -31,6 +30,7 @@ class Drink():
 
 drinkList = []
 
+
 rumCoke = Drink("rumCoke",80,20,0)
 vodkaCoke = Drink("vodkaCoke",80,0,20)
 
@@ -44,8 +44,6 @@ def btnPressed(btn): #Button pressed while on homescreen
             homeMenu()
         if btn == "mix":
             mixDrinkMenu()
-            #myLabel = tk.Label(root,text="mix drink clicked!")
-            #myLabel.pack()
         if btn == "add":
             addDrinkMenu()
         #case "remove":
@@ -59,8 +57,21 @@ def btnPressed(btn): #Button pressed while on homescreen
 
 def updateSliderValueList():
     sliderValueList.clear()
-    for i in range(3):
+    totalpercentage = 0
+    for i in range(len(sliderList)):
         sliderValueList.append(sliderList[i].get())
+        totalpercentage += sliderValueList[i]
+    #check if percentages add up to 100%
+    if(totalpercentage == 0):
+        return -1 #error
+    if totalpercentage != 100:
+        for i in range(len(sliderList)):
+            #setting values to add up to 100%
+            sliderValueList[i] /= (totalpercentage/100)
+
+
+
+
     
 #define buttons
 mixDrinkButton = tk.Button(text="MIX DRINK",font = buttonFont,fg="black",bg=buttonColor,
@@ -153,19 +164,19 @@ def addDrinkMenu():
 
 def addDrinkConfirmationMenu():
     clearScreen()
-    confirmButton = tk.Button(text="CONFIRM",font = buttonFont)
+    confirmButton = tk.Button(text="CONFIRM",font = buttonFont,bg = "green",
+    command = lambda: btnPressed("addDrinkConfirm"))
     addMenuButtons()
-    label = tk.Label(text = "You selected these ingredients:", font = "arial 35 bold")
-    label1 = tk.Label(text = "Cola: " + str(sliderValueList[0]) + " %",font = normalFont)
-    label2 = tk.Label(text = "Rom: " + str(sliderValueList[1]) + " %", font = normalFont)
-    label3 = tk.Label(text = "Vodka: " + str(sliderValueList[2]) + " %", font = normalFont)
+    label = tk.Label(text = "You selected these ingredients:", font = "arial 25 bold")
+    label1 = tk.Label(text = "Cola: " + str(round(sliderValueList[0],1)) + " %",font = normalFont)
+    label2 = tk.Label(text = "Rom: " + str(round(sliderValueList[1],1)) + " %", font = normalFont)
+    label3 = tk.Label(text = "Vodka: " + str(round(sliderValueList[2],1)) + " %", font = normalFont)
 
     label.place(relx = 0.2,rely = 0.1)
     label1.place(relx = 0.4, rely = 0.25)
     label2.place(relx = 0.4, rely = 0.40)
     label3.place(relx = 0.4, rely = 0.55)
-    confirmButton.place(relx = 0.35,rely = 0.65, height=100, width=200,
-    command = lambda: btnPressed("addDrinkConfirm"))
+    confirmButton.place(relx = 0.4,rely = 0.65, height=75, width=150)
 
 #run program - start in home menu
 homeMenu()
