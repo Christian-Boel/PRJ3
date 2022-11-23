@@ -99,6 +99,7 @@ removeDrinkButton = tk.Button(text="REMOVE DRINK",font = smallFont,fg="black",bg
 command=lambda: btnPressed("remove")
 )
 
+#ÆNDRE STIEN HVIS DER ER COMPILER FEJL 
 home_img = ImageTk.PhotoImage(Image.open(r"icons/white_homeicon_80x80.png"))
 home_button = tk.Button(image=home_img,
 command= lambda: btnPressed("home")
