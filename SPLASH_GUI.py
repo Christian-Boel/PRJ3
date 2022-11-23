@@ -99,12 +99,12 @@ removeDrinkButton = tk.Button(text="REMOVE DRINK",font = smallFont,fg="black",bg
 command=lambda: btnPressed("remove")
 )
 
-home_img = ImageTk.PhotoImage(Image.open(r"icons\white_homeicon_80x80.png"))
+home_img = ImageTk.PhotoImage(Image.open(r"icons/white_homeicon_80x80.png"))
 home_button = tk.Button(image=home_img,
 command= lambda: btnPressed("home")
 )
 
-back_img = ImageTk.PhotoImage(Image.open(r"icons\arrow_original_80x80.png"))
+back_img = ImageTk.PhotoImage(Image.open(r"icons/arrow_original_80x80.png"))
 back_button = tk.Button(image=back_img)
 
 
