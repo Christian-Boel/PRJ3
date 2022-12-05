@@ -10,7 +10,7 @@ mediumFont = 'Arial 20'
 smallFont = 'Arial 15'
 
 root.title("SPLASH")
-root.geometry("800x480")
+root.geometry("800x450")
 
 #Drink class - used for storing values
 class Drink():
@@ -83,13 +83,15 @@ def btnPressed(btnValue):
 def drinkBtnPressed(drink):
     global drinkSelected
     drinkSelected = drink
+    print("drink: ", drink.name)
+    print("drinkselected: ", drinkSelected.name)
     mixDrinkConfirmationMenu()
     return
 
 def updateDrinkButtons():
     drinkButtonList.clear()
     for drink in drinkList: #create button for every drink
-        drinkButtonList.append(tk.Button(text=drink.name,bg = "#581105", fg = "white", font=smallFont,command = lambda: drinkBtnPressed(drink)))
+        drinkButtonList.append(tk.Button(text=drink.name,bg = "#581105", fg = "white", font=smallFont,command = lambda drink=drink: drinkBtnPressed(drink)))
 
 def updateSliderValueList():
     sliderValueList.clear()
@@ -135,8 +137,8 @@ def clearScreen():
         widget.place_forget()
 
 def displayMenuButtons():
-    home_button.place(y=400,x = 0)
-    back_button.place(y=400,x = 720)
+    home_button.place(y = 370,x = 0)
+   #back_button.place(y=400,x = 720)
 
 def displayDrinkButtons():
     #mapping x and y positions for button placement
@@ -159,6 +161,8 @@ def mixDrinkMenu():
     displayMenuButtons()
     updateDrinkButtons()
     displayDrinkButtons()
+    label = tk.Label(text = "Select a drink: ", font = "arial 30 bold")
+    label.place(rely = 0.05, relx =0.35)
 
 def removeDrinkMenu():
     clearScreen()
