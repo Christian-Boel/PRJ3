@@ -1,5 +1,6 @@
 import tkinter as tk
 from PIL import ImageTk,Image
+import time
 
 root = tk.Tk()
 
@@ -77,21 +78,28 @@ def btnPressed(btnValue):
             print("Pouring drink!")
 
 #Button handler for mix drink and remove drink menues
-def drinkBtnPressed(drink):
-    global drinkSelected
-    drinkSelected = drink
-    print("drink: ", drink.name)
-    print("drinkselected: ", drinkSelected.name)
-    mixDrinkConfirmationMenu()
+def drinkBtnPressed(drink,remove,index):
+    if(remove == 0):
+        global drinkSelected
+        drinkSelected = drink
+        mixDrinkConfirmationMenu()
+    else: 
+        del drinkList[index]
+        time.sleep(1)
+        displayHomeMenu()
+
+    
     return
 
-def updateDrinkButtons():
+def updateDrinkButtons(remove:bool):
     drinkButtonList.clear()
-    for drink in drinkList: #create button for every drink
+    for i,drink in enumerate(drinkList): #create button for every drink
+        drinkButtonList.append(tk.Button(text=drink.name,bg =  "#581105", fg = "white", font=smallFont, command = lambda drink=drink: drinkBtnPressed(drink,remove,i)))
         if((colaContainerEmpty and drink.colaRatio > 0) or (rumContainerEmpty and drink.rumRatio > 0) or (vodkaContainerEmpty and drink.vodkaRatio > 0)):
-            drinkButtonList.append(tk.Button(text=drink.name,bg = "grey", fg = "white", font=smallFont)) # Greyed out, no command
-        else:
-            drinkButtonList.append(tk.Button(text=drink.name,bg = "#581105", fg = "white", font=smallFont,command = lambda drink=drink: drinkBtnPressed(drink)))
+            drinkButtonList[i].configure(bg = "grey",command=None)
+
+        
+        
 
 def updateSliderValueList():
     sliderValueList.clear()
@@ -159,7 +167,7 @@ def displayHomeMenu():
 def mixDrinkMenu():
     clearScreen()
     displayMenuButtons()
-    updateDrinkButtons()
+    updateDrinkButtons(0)
     displayDrinkButtons()
     label = tk.Label(text = "Select a drink: ", font = "arial 30 bold")
     label.place(rely = 0.05, relx =0.35)
@@ -167,7 +175,7 @@ def mixDrinkMenu():
 def removeDrinkMenu():
     clearScreen()
     displayMenuButtons()
-    updateDrinkButtons()
+    updateDrinkButtons(1)
     displayDrinkButtons()
 
 def addDrinkMenu():
