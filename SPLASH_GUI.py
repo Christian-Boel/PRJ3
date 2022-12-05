@@ -10,7 +10,7 @@ mediumFont = 'Arial 20'
 smallFont = 'Arial 15'
 
 root.title("SPLASH")
-root.geometry("800x450")
+root.geometry("800x430")
 
 #Drink class - used for storing values
 class Drink():
@@ -27,7 +27,6 @@ class Drink():
         self.name = name
 
 #global variables
-
 #drink lists
 drinkList = []
 drinkButtonList = []
@@ -48,11 +47,9 @@ nameVar = tk.StringVar()
 #addional variables
 colaContainerEmpty = False
 vodkaContainerEmpty = False
-rumContainerEmpty = False
+rumContainerEmpty = True
 sizeSelected = "Small"
 drinkSelected = drinkList[0] #default
-
-
 
 #Default button handler
 def btnPressed(btnValue): 
@@ -65,7 +62,7 @@ def btnPressed(btnValue):
         if btnValue == "remove":
             removeDrinkMenu()
         if btnValue == "drinkAddedContinue":
-            if updateSliderValueList() == -1:
+            if updateSliderValueList() == -1: 
                 return
             addDrinkConfirmationMenu()
         if btnValue == "addDrinkConfirm":
@@ -91,7 +88,10 @@ def drinkBtnPressed(drink):
 def updateDrinkButtons():
     drinkButtonList.clear()
     for drink in drinkList: #create button for every drink
-        drinkButtonList.append(tk.Button(text=drink.name,bg = "#581105", fg = "white", font=smallFont,command = lambda drink=drink: drinkBtnPressed(drink)))
+        if((colaContainerEmpty and drink.colaRatio > 0) or (rumContainerEmpty and drink.rumRatio > 0) or (vodkaContainerEmpty and drink.vodkaRatio > 0)):
+            drinkButtonList.append(tk.Button(text=drink.name,bg = "grey", fg = "white", font=smallFont)) # Greyed out, no command
+        else:
+            drinkButtonList.append(tk.Button(text=drink.name,bg = "#581105", fg = "white", font=smallFont,command = lambda drink=drink: drinkBtnPressed(drink)))
 
 def updateSliderValueList():
     sliderValueList.clear()
@@ -137,7 +137,7 @@ def clearScreen():
         widget.place_forget()
 
 def displayMenuButtons():
-    home_button.place(y = 370,x = 0)
+    home_button.place(y = 350,x = 0)
    #back_button.place(y=400,x = 720)
 
 def displayDrinkButtons():
