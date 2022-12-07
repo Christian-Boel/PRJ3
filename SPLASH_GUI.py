@@ -2,6 +2,8 @@ import tkinter as tk
 from PIL import ImageTk,Image
 import time
 
+testmode = 1 #used for testing
+
 root = tk.Tk()
 animationCanvas = tk.Canvas(root,width = 200, height=200)
 
@@ -76,14 +78,14 @@ def btnPressed(btnValue):
             sizeSelected = btnValue
             mixDrinkMenu()
         if btnValue == "mixDrinkConfirm":
-            placeGlassMenu()
+            pourDrink()
 
 #Button handler for mix drink and remove drink menues
 def drinkBtnPressed(drink,remove,index):
     if(remove == 0):
         global drinkSelected
         drinkSelected = drink
-        mixDrinkDisplaySelectionMenu()
+        placeGlassMenu()
     else: 
         del drinkList[index]
         time.sleep(0.5)
@@ -274,18 +276,37 @@ def placeGlassMenu():
     label.place(rely = 0.1, relx = 0.3)
     imgLabel.place(rely = 0.5, relx = 0.5, anchor="center")
     #animationCanvas.place(relx = 0.5,rely = 0.5, anchor = "center")
-    # root.after(5000,displayHomeMenu())
-    placeGlassAnimation()
+    #root.after(5000,displayHomeMenu())
+    placeGlassAnimation1()
 
-def placeGlassAnimation():
+# def placeGlassAnimation():
+#     global imgLabel
+#     imgLabel.configure(image = glass_img1)
+#     root.after(1,)
+#     imgLabel.configure(image = glass_img2)
+#     root.update()
+#     time.sleep(1)
+#     placeGlassAnimation()
+
+def placeGlassAnimation1():
     global imgLabel
     imgLabel.configure(image = glass_img1)
-    root.update()
-    time.sleep(1)
+    root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation2)
+def placeGlassAnimation2():
+    global imgLabel
     imgLabel.configure(image = glass_img2)
-    root.update()
-    time.sleep(1)
-    placeGlassAnimation()
+    root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation1)
+
+def glassRegistered():
+    SPI_Status = testmode #read spi
+    return SPI_Status
+
+def pourDrink():
+    clearScreen()
+    displayMenuButtons()
+    label = tk.Label(text="Pouring drink",font="arial 30 bold")
+    label.place(relx = 0.5, rely = 0.1, anchor = "center")
+    print("Pouring drink!")
 
 
 #run program - start in home menu
