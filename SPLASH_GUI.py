@@ -3,6 +3,7 @@ from PIL import ImageTk,Image
 import time
 
 root = tk.Tk()
+animationCanvas = tk.Canvas(root,width = 200, height=200)
 
 buttonColor = "#2596be"
 headerFont = 'Arial 75 bold'
@@ -48,7 +49,7 @@ nameVar = tk.StringVar()
 #addional variables
 colaContainerEmpty = False
 vodkaContainerEmpty = False
-rumContainerEmpty = True
+rumContainerEmpty = False
 sizeSelected = "Small"
 drinkSelected = drinkList[0] #default
 
@@ -74,33 +75,29 @@ def btnPressed(btnValue):
             global sizeSelected
             sizeSelected = btnValue
             mixDrinkMenu()
-        if btnValue == "pour":
-            print("Pouring drink!")
+        if btnValue == "mixDrinkConfirm":
+            placeGlassMenu()
 
 #Button handler for mix drink and remove drink menues
 def drinkBtnPressed(drink,remove,index):
     if(remove == 0):
         global drinkSelected
         drinkSelected = drink
-        mixDrinkConfirmationMenu()
+        mixDrinkDisplaySelectionMenu()
     else: 
         del drinkList[index]
-        time.sleep(1)
+        time.sleep(0.5)
         displayHomeMenu()
-
-    
-    return
 
 def updateDrinkButtons(remove:bool):
     drinkButtonList.clear()
     for i,drink in enumerate(drinkList): #create button for every drink
         drinkButtonList.append(tk.Button(text=drink.name,bg =  "#581105", fg = "white", font=smallFont, command = lambda drink=drink: drinkBtnPressed(drink,remove,i)))
         if((colaContainerEmpty and drink.colaRatio > 0) or (rumContainerEmpty and drink.rumRatio > 0) or (vodkaContainerEmpty and drink.vodkaRatio > 0)):
-            drinkButtonList[i].configure(bg = "grey",command=None)
-
+            drinkButtonList[i].configure(command=None)
+            if(remove != 1):
+                drinkButtonList[i].configure(bg = "grey")
         
-        
-
 def updateSliderValueList():
     sliderValueList.clear()
     totalpercentage = 0
@@ -135,9 +132,13 @@ home_button = tk.Button(image=home_img,
 command= lambda: btnPressed("home")
 )
 
-back_img = ImageTk.PhotoImage(Image.open(r"icons/arrow_original_80x80.png"))
-back_button = tk.Button(image=back_img)
+# back_img = ImageTk.PhotoImage(Image.open(r"icons/arrow_original_80x80.png"))
+# back_button = tk.Button(image=back_img)
 
+glass_img1 = ImageTk.PhotoImage(Image.open(r"icons/glassIcon1.png"))
+glass_img2 = ImageTk.PhotoImage(Image.open(r"icons/glassIcon2.png"))
+
+imgLabel = tk.Label(image=glass_img1) # used for animation
 
 #Functions for displaying various menues
 def clearScreen():
@@ -167,7 +168,7 @@ def displayHomeMenu():
 def mixDrinkMenu():
     clearScreen()
     displayMenuButtons()
-    updateDrinkButtons(0)
+    updateDrinkButtons(False)
     displayDrinkButtons()
     label = tk.Label(text = "Select a drink: ", font = "arial 30 bold")
     label.place(rely = 0.05, relx =0.35)
@@ -175,7 +176,7 @@ def mixDrinkMenu():
 def removeDrinkMenu():
     clearScreen()
     displayMenuButtons()
-    updateDrinkButtons(1)
+    updateDrinkButtons(True)
     displayDrinkButtons()
 
 def addDrinkMenu():
@@ -246,7 +247,7 @@ def drinkSizeMenu():
     button2.place(rely = 0.4,relx=0.4, height = 175, width = 175)
     button3.place(rely = 0.4,relx=0.7, height = 175, width = 175)
     
-def mixDrinkConfirmationMenu():
+def mixDrinkDisplaySelectionMenu():
     global drinkSelected
     clearScreen()
     displayMenuButtons()
@@ -256,7 +257,7 @@ def mixDrinkConfirmationMenu():
     label2 = tk.Label(text = "Rom: " + str(round(drinkSelected.rumRatio,1)) + " %", font = mediumFont)
     label3 = tk.Label(text = "Vodka: " + str(round(drinkSelected.vodkaRatio,1)) + " %", font = mediumFont)
     nameLabel = tk.Label(text=drinkSelected.name , font = normalFont)
-    confirmButton = tk.Button(text="MIX!",font = smallFont,bg = "green",command=lambda:btnPressed("pour"))
+    confirmButton = tk.Button(text="Confirm",font = smallFont,bg = "green",command=lambda:btnPressed("mixDrinkConfirm"))
 
     nameLabel.place(relx = 0.4, rely = 0.01)
     label0.place(relx = 0.4,rely = 0.15)
@@ -265,6 +266,27 @@ def mixDrinkConfirmationMenu():
     label2.place(relx = 0.4, rely = 0.48)
     label3.place(relx = 0.4, rely = 0.58)
     confirmButton.place(relx = 0.4,rely = 0.72, height=75, width=150)
+
+def placeGlassMenu():
+    clearScreen()
+    displayMenuButtons()
+    label = tk.Label(text = "Placer glas på vægten",font = "arial 30 bold")
+    label.place(rely = 0.1, relx = 0.3)
+    imgLabel.place(rely = 0.5, relx = 0.5, anchor="center")
+    #animationCanvas.place(relx = 0.5,rely = 0.5, anchor = "center")
+    # root.after(5000,displayHomeMenu())
+    placeGlassAnimation()
+
+def placeGlassAnimation():
+    global imgLabel
+    imgLabel.configure(image = glass_img1)
+    root.update()
+    time.sleep(1)
+    imgLabel.configure(image = glass_img2)
+    root.update()
+    time.sleep(1)
+    placeGlassAnimation()
+
 
 #run program - start in home menu
 displayHomeMenu()
