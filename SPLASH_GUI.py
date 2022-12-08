@@ -316,12 +316,11 @@ def pourDrink():
     print("Pouring drink!")
     #spi send 
     try: 
-        with open("/dev/spi_drv0","w") as file:
+        with open("/dev/spi_drv0","w") as file: # w = overwrites, a = appends
             sizeVal = 1 if "Small" else 2 if "Medium" else 3
-            file.write(sizeVal,drinkSelected.colaRatio,drinkSelected.rumRatio,drinkSelected.vodkaRatio)
+            file.write(sizeVal,drinkSelected.colaRatio,drinkSelected.rumRatio,drinkSelected.vodkaRatio) 
     except: 
         print("Failed to write to SPI")
-
 
 #run program - start in home menu
 displayHomeMenu()
