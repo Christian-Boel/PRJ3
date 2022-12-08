@@ -241,9 +241,9 @@ def drinkSizeMenu():
     displayMenuButtons()
     label = tk.Label(text="Choose a drink size",font="arial 30 bold")
     label.place(relx = 0.30,rely = 0.1)
-    button1 = tk.Button(text="Small",font=mediumFont,bg="red",command=lambda: btnPressed("Small"))
-    button2 = tk.Button(text="Medium",font=mediumFont,bg="red",command=lambda: btnPressed("Medium"))
-    button3 = tk.Button(text="Large",font=mediumFont,bg="red",command=lambda: btnPressed("Large"))
+    button1 = tk.Button(text="Small",font=mediumFont,bg="green",command=lambda: btnPressed("Small"))
+    button2 = tk.Button(text="Medium",font=mediumFont,bg="green",command=lambda: btnPressed("Medium"))
+    button3 = tk.Button(text="Large",font=mediumFont,bg="green",command=lambda: btnPressed("Large"))
 
     button1.place(rely = 0.4,relx=0.1, height = 175, width = 175)
     button2.place(rely = 0.4,relx=0.4, height = 175, width = 175)
@@ -299,6 +299,13 @@ def placeGlassAnimation2():
 
 def glassRegistered():
     SPI_Status = testmode #read spi
+    try:
+        with open("/dev/spi_drv0","r") as file:
+            file.seek(0,2) #moves file pointer to end of file
+            SPI_Status = file.read(1) # reads last character
+            print("SPI: status read: " , SPI_Status)
+    except:
+        print("Failed to read from SPI")
     return SPI_Status
 
 def pourDrink():
@@ -307,6 +314,13 @@ def pourDrink():
     label = tk.Label(text="Pouring drink",font="arial 30 bold")
     label.place(relx = 0.5, rely = 0.1, anchor = "center")
     print("Pouring drink!")
+    #spi send 
+    try: 
+        with open("/dev/spi_drv0","w") as file:
+            sizeVal = 1 if "Small" else 2 if "Medium" else 3
+            file.write(sizeVal,drinkSelected.colaRatio,drinkSelected.rumRatio,drinkSelected.vodkaRatio)
+    except: 
+        print("Failed to write to SPI")
 
 
 #run program - start in home menu
