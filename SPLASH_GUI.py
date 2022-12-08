@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import ImageTk,Image
 import time
+import os
 
 testmode = 1 #used for testing
 
@@ -117,16 +118,13 @@ def updateSliderValueList():
 #Homescreen and menu buttons
 Header = tk.Label(text="SPLASH",font=headerFont,foreground="black")
 mixDrinkButton = tk.Button(text="MIX DRINK",font = smallFont,bg=buttonColor,
-command=lambda: btnPressed("mix")
-)
+command=lambda: btnPressed("mix"))
 
 addDrinkButton = tk.Button(text="ADD DRINK",font = smallFont,bg=buttonColor,
-command=lambda: btnPressed("add")
-)
+command=lambda: btnPressed("add"))
 
 removeDrinkButton = tk.Button(text="REMOVE DRINK",font = smallFont,bg=buttonColor,
-command=lambda: btnPressed("remove")
-)
+command=lambda: btnPressed("remove"))
 
 #ÆNDRE STIEN HVIS DER ER COMPILER FEJL 
 home_img = ImageTk.PhotoImage(Image.open(r"icons/white_homeicon_80x80.png"))
@@ -296,10 +294,9 @@ def placeGlassAnimation2():
 def glassRegistered():
     SPI_Status = testmode #read spi
     try:
-        with open("/dev/spi_drv0","r") as file:
-            file.seek(0,2) #moves file pointer to end of file
-            SPI_Status = file.read(1) # reads last character
-            print("SPI: status read: " , SPI_Status)
+        file = os.open("dev/spi_drv0", os.O_RDWR)
+        SPI_Status = (os.read(file,16)).decode()
+        print("SPI: status read: " , SPI_Status)
     except:
         print("Failed to read from SPI")
     return SPI_Status
@@ -338,9 +335,6 @@ def fillGlassAnimation():
         root.after(600,fillGlassAnimation1)
     fillGlassAnimation1()
     
-        
-    
-
 #run program - start in home menu
 homeMenu()
 root.mainloop()
