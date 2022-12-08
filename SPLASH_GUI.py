@@ -58,7 +58,7 @@ drinkSelected = drinkList[0] #default
 #Default button handler
 def btnPressed(btnValue): 
         if btnValue == "home":
-            displayHomeMenu()
+            homeMenu()
         if btnValue == "mix":
             drinkSizeMenu()
         if btnValue == "add":
@@ -72,7 +72,7 @@ def btnPressed(btnValue):
         if btnValue == "addDrinkConfirm":
             print("Drink added")
             drinkList.append(Drink(nameVar.get(),sliderValueList[0],sliderValueList[1],sliderValueList[2]))
-            displayHomeMenu()
+            homeMenu()
         if btnValue =="Small" or btnValue=="Medium" or btnValue=="Large":
             global sizeSelected
             sizeSelected = btnValue
@@ -89,7 +89,7 @@ def drinkBtnPressed(drink,remove,index):
     else: 
         del drinkList[index]
         time.sleep(0.5)
-        displayHomeMenu()
+        homeMenu()
 
 def updateDrinkButtons(remove:bool):
     drinkButtonList.clear()
@@ -116,15 +116,15 @@ def updateSliderValueList():
 
 #Homescreen and menu buttons
 Header = tk.Label(text="SPLASH",font=headerFont,foreground="black")
-mixDrinkButton = tk.Button(text="MIX DRINK",font = smallFont,fg="black",bg=buttonColor,
+mixDrinkButton = tk.Button(text="MIX DRINK",font = smallFont,bg=buttonColor,
 command=lambda: btnPressed("mix")
 )
 
-addDrinkButton = tk.Button(text="ADD DRINK",font = smallFont,fg="black",bg=buttonColor,
+addDrinkButton = tk.Button(text="ADD DRINK",font = smallFont,bg=buttonColor,
 command=lambda: btnPressed("add")
 )
 
-removeDrinkButton = tk.Button(text="REMOVE DRINK",font = smallFont,fg="black",bg=buttonColor,
+removeDrinkButton = tk.Button(text="REMOVE DRINK",font = smallFont,bg=buttonColor,
 command=lambda: btnPressed("remove")
 )
 
@@ -139,8 +139,13 @@ command= lambda: btnPressed("home")
 
 glass_img1 = ImageTk.PhotoImage(Image.open(r"icons/glassIcon1.png"))
 glass_img2 = ImageTk.PhotoImage(Image.open(r"icons/glassIcon2.png"))
+placeGlassLabel = tk.Label(image=glass_img1) # used for animation
 
-imgLabel = tk.Label(image=glass_img1) # used for animation
+fillglass_img1 = ImageTk.PhotoImage(Image.open(r"icons/Glass empty.png"))
+fillglass_img2 = ImageTk.PhotoImage(Image.open(r"icons/Glass third full.png"))
+fillglass_img3 = ImageTk.PhotoImage(Image.open(r"icons/Glass third empty.png"))
+fillglass_img4 = ImageTk.PhotoImage(Image.open(r"icons/Glass full.png"))
+fillGlassLabel = tk.Label(image=fillglass_img1)
 
 #Functions for displaying various menues
 def clearScreen():
@@ -160,9 +165,9 @@ def displayDrinkButtons():
         if i < btnLimit:
             drinkBtn.place(rely=ypos[i],relx = xpos[i],height = 100, width = 150)
 
-def displayHomeMenu():
+def homeMenu():
     clearScreen()
-    Header.place(rely= 0.05, relx=0.26)
+    Header.place(rely = 0.2, relx=0.5, anchor = "center")
     mixDrinkButton.place(rely = 0.4,relx=0.075, height = 200, width = 200)
     addDrinkButton.place(rely = 0.4,relx=0.375, height = 200, width = 200)
     removeDrinkButton.place(rely = 0.4,relx=0.675, height = 200, width = 200)
@@ -185,7 +190,7 @@ def addDrinkMenu():
     clearScreen()
     displayMenuButtons()
 
-    addDrinkContinuedButton = tk.Button(text="Continue" ,font=smallFont,fg="black", bg=buttonColor,
+    addDrinkContinuedButton = tk.Button(text="Continue" ,font=smallFont, bg=buttonColor,
     command=lambda: btnPressed("drinkAddedContinue"))
     label1 = tk.Label(text="Add drink",font="arial 25 bold")
     nameLabel = tk.Label(text="Name:",font="arial 15")
@@ -274,27 +279,18 @@ def placeGlassMenu():
     displayMenuButtons()
     label = tk.Label(text = "Placer glas på vægten",font = "arial 30 bold")
     label.place(rely = 0.1, relx = 0.3)
-    imgLabel.place(rely = 0.5, relx = 0.5, anchor="center")
+    placeGlassLabel.place(rely = 0.5, relx = 0.5, anchor="center")
     #animationCanvas.place(relx = 0.5,rely = 0.5, anchor = "center")
-    #root.after(5000,displayHomeMenu())
+    #root.after(5000,homeMenu())
     placeGlassAnimation1()
 
-# def placeGlassAnimation():
-#     global imgLabel
-#     imgLabel.configure(image = glass_img1)
-#     root.after(1,)
-#     imgLabel.configure(image = glass_img2)
-#     root.update()
-#     time.sleep(1)
-#     placeGlassAnimation()
-
 def placeGlassAnimation1():
-    global imgLabel
-    imgLabel.configure(image = glass_img1)
+    global placeGlassLabel
+    placeGlassLabel.configure(image = glass_img1)
     root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation2)
 def placeGlassAnimation2():
-    global imgLabel
-    imgLabel.configure(image = glass_img2)
+    global placeGlassLabel
+    placeGlassLabel.configure(image = glass_img2)
     root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation1)
 
 def glassRegistered():
@@ -321,7 +317,30 @@ def pourDrink():
             file.write(sizeVal,drinkSelected.colaRatio,drinkSelected.rumRatio,drinkSelected.vodkaRatio) 
     except: 
         print("Failed to write to SPI")
+    fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
+    fillGlassAnimation()
+    root.after(10000,homeMenu)
+    #homeMenu()
+
+def fillGlassAnimation():
+    global fillGlassLabel
+    def fillGlassAnimation1():
+        fillGlassLabel.configure(image = fillglass_img1)
+        root.after(600,fillGlassAnimation2)
+    def fillGlassAnimation2():
+        fillGlassLabel.configure(image = fillglass_img2)
+        root.after(600,fillGlassAnimation3)
+    def fillGlassAnimation3():
+        fillGlassLabel.configure(image = fillglass_img3)
+        root.after(600,fillGlassAnimation4)
+    def fillGlassAnimation4():
+        fillGlassLabel.configure(image = fillglass_img4)
+        root.after(600,fillGlassAnimation1)
+    fillGlassAnimation1()
+    
+        
+    
 
 #run program - start in home menu
-displayHomeMenu()
+homeMenu()
 root.mainloop()
