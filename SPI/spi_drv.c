@@ -48,21 +48,6 @@ int my_spi_write_byte(struct spi_device *spi, u8 data)
   //t[0].delay_usecs = 60;
   spi_message_add_tail(&t[0], &m);
 
-  // t[1].tx_buf = NULL;
-  // t[1].rx_buf = &data;
-  // t[1].len = 1;
-  // spi_message_add_tail(&t[1], &m);
-
-  // t[2].tx_buf = &data[2];
-  // t[2].rx_buf = NULL;
-  // t[2].len = 1;
-  // spi_message_add_tail(&t[2], &m);
-
-  // t[3].tx_buf = &data[3];
-  // t[3].rx_buf = NULL;
-  // t[3].len = 1;
-  // spi_message_add_tail(&t[3], &m);
-
   err = spi_sync(m.spi, &m);
   return err;
 }
@@ -81,12 +66,6 @@ int my_spi_read_byte(struct spi_device *spi, u8 *data)
   t[0].rx_buf = data;
   t[0].len = 1;
   spi_message_add_tail(&t[0], &m);
-
-  // t[1].tx_buf = NULL;
-  // t[1].rx_buf = &data1;
-  // t[1].len = 1;
-  // t[0].delay_usecs = 60;
-  // spi_message_add_tail(&t[1], &m);
 
   err = spi_sync(m.spi, &m);
   return err;
@@ -228,7 +207,7 @@ ssize_t spi_drv_read(struct file *filep, char __user *ubuf,
 
   /* Convert integer to string limited to "count" size. Returns
    * length excluding NULL termination */
-  len = snprintf(resultBuf, count, "%d\n", newResult);
+  len = snprintf(resultBuf, count, "%d", newResult);
 
   /* Append Length of NULL termination */
   len++;
