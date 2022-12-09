@@ -309,9 +309,11 @@ def pourDrink():
     print("Pouring drink!")
     #spi send 
     try: 
-        with open("/dev/spi_drv0","w") as file: # w = overwrites, a = appends
-            sizeVal = 1 if "Small" else 2 if "Medium" else 3
-            file.write(sizeVal,drinkSelected.colaRatio,drinkSelected.rumRatio,drinkSelected.vodkaRatio)1 
+        file = os.open("dev/spi_drv0", os.O_RDWR)
+        sizeVal = 1 if "Small" else 2 if "Medium" else 3
+        #convert to string then to byte
+        byteList = [str.encode(str(sizeVal)), str.encode(str(drinkSelected.colaRatio)),str.encode(str(drinkSelected.rumRatio)),str.encode(str(drinkSelected.vodkaRatio))] 
+        os.write(byteLis)
     except: 
         print("Failed to write to SPI")
     fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
