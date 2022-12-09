@@ -313,7 +313,7 @@ def pourDrink():
         sizeVal = 1 if "Small" else 2 if "Medium" else 3
         #convert to string then to byte
         byteList = [str.encode(str(sizeVal)), str.encode(str(drinkSelected.colaRatio)),str.encode(str(drinkSelected.rumRatio)),str.encode(str(drinkSelected.vodkaRatio))] 
-        os.write(byteLis)
+        os.write(byteList)
     except: 
         print("Failed to write to SPI")
     fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
