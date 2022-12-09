@@ -311,7 +311,7 @@ def pourDrink():
     try: 
         with open("/dev/spi_drv0","w") as file: # w = overwrites, a = appends
             sizeVal = 1 if "Small" else 2 if "Medium" else 3
-            file.write(sizeVal,drinkSelected.colaRatio,drinkSelected.rumRatio,drinkSelected.vodkaRatio) 
+            file.write(sizeVal,drinkSelected.colaRatio,drinkSelected.rumRatio,drinkSelected.vodkaRatio)1 
     except: 
         print("Failed to write to SPI")
     fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
