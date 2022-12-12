@@ -3,7 +3,7 @@ from PIL import ImageTk,Image
 import time
 import os
 
-testmode = 0 #used for testing
+testmode = 1 #used for testing
 
 root = tk.Tk()
 animationCanvas = tk.Canvas(root,width = 200, height=200)
