@@ -1,10 +1,16 @@
-status = 0
-with open("test.txt","r") as file:
-    file.seek(0,2)
-    file.seek(file.tell() - 1, 0)
-    status = int(file.read())
+import os
+import time
 
+file = os.open("/dev/spi_drv0",os.O_RDWR)
+line = str.encode(str(10|128))
+os.write(file,line)
+line = str.encode(str(50|128))
+os.write(file,line)
+line = str.encode(str(37|128))
+os.write(file,line)
+line = str.encode(str(25|128))
+os.write(file,line)
+
+
+status = os.read(file,16)
 print(status)
-
-with open("test.txt", "a") as file:
-    file.write("2")
