@@ -12,5 +12,5 @@ line = str.encode(str(25|128))
 os.write(file,line)
 
 
-status = decode(os.read(file,16))
-print(status)
+status = os.read(file,16)
+print(status.decode())
