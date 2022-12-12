@@ -299,7 +299,7 @@ def glassRegistered():
         print("SPI: status read: " , SPI_Status.decode())
     except:
         print("Failed to read from SPI")
-    return SPI_Status
+    return int(SPI_Status.decode())
 
 def pourDrink():
     clearScreen()
