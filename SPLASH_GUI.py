@@ -3,7 +3,7 @@ from PIL import ImageTk,Image
 import time
 import os
 
-testmode = 1 #used for testing
+testmode = 0 #used for testing
 
 root = tk.Tk()
 animationCanvas = tk.Canvas(root,width = 200, height=200)
@@ -315,6 +315,8 @@ def pourDrink():
         byteList = [str.encode(str(sizeVal| 128)), str.encode(str(drinkSelected.colaRatio|128)),str.encode(str(drinkSelected.rumRatio|128)),str.encode(str((drinkSelected.vodkaRatio|128)))]
         for byte in byteList:
             os.write(file,byte)
+        print(byteList.decode())
+        
     except: 
         print("Failed to write to SPI")
     fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
