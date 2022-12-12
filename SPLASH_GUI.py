@@ -292,7 +292,7 @@ def placeGlassAnimation2():
     root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation1)
 
 def glassRegistered():
-    SPI_Status = testmode #read spi
+    SPI_Decoded = testmode #read spi
     try:
         file = os.open("/dev/spi_drv0", os.O_RDWR)
         SPI_Status = (os.read(file,16))
