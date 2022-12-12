@@ -303,7 +303,7 @@ def glassRegistered():
     print("SPI: status read:" , SPI_Decoded)
     #except:
     #print("Failed to read from SPI")
-    if SPI_Decoded == "1" or SPI_Decoded == " 1" or SPI_Decoded == 1 or SPI_intversion:
+    if SPI_Decoded == "1" or SPI_Decoded == " 1" or SPI_Decoded == 1 or SPI_intversion == 1:
         return True
     else:
         return False
