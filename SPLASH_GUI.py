@@ -312,7 +312,7 @@ def pourDrink():
         file = os.open("dev/spi_drv0", os.O_RDWR)
         sizeVal = 1 if "Small" else 2 if "Medium" else 3
         #convert to string then to byte
-        byteList = [str.encode(str(sizeVal)), str.encode(str(drinkSelected.colaRatio)),str.encode(str(drinkSelected.rumRatio)),str.encode(str(drinkSelected.vodkaRatio))]
+        byteList = [str.encode(str(sizeVal| 128)), str.encode(str(drinkSelected.colaRatio|128)),str.encode(str(drinkSelected.rumRatio|128)),str.encode(str((drinkSelected.vodkaRatio|128)))]
         for byte in byteList:
             os.write(file,byte)
     except: 
