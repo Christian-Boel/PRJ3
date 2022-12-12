@@ -294,7 +294,7 @@ def placeGlassAnimation2():
 def glassRegistered():
     SPI_Status = testmode #read spi
     try:
-        file = os.open("dev/spi_drv0", os.O_RDWR)
+        file = os.open("/dev/spi_drv0", os.O_RDWR)
         SPI_Status = (os.read(file,16))
         print("SPI: status read: " , SPI_Status.decode())
     except:
@@ -308,15 +308,15 @@ def pourDrink():
     label.place(relx = 0.5, rely = 0.1, anchor = "center")
     print("Pouring drink!")
     #spi send 
-    #try: 
-    file = os.open("/dev/spi_drv0", os.O_RDWR)
-    sizeVal = 1 if "Small" else 2 if "Medium" else 3
-    #convert to string then to byte
-    byteList = [str.encode(str(sizeVal| 128)), str.encode(str(drinkSelected.colaRatio|128)),str.encode(str(drinkSelected.rumRatio|128)),str.encode(str((drinkSelected.vodkaRatio|128)))]
-    for byte in byteList:
-        os.write(file,byte)
-    #except: 
-        #print("Failed to write to SPI")
+    try: 
+        file = os.open("/dev/spi_drv0", os.O_RDWR)
+        sizeVal = 1 if "Small" else 2 if "Medium" else 3
+        #convert to string then to byte
+        byteList = [str.encode(str(sizeVal| 128)), str.encode(str(drinkSelected.colaRatio|128)),str.encode(str(drinkSelected.rumRatio|128)),str.encode(str((drinkSelected.vodkaRatio|128)))]
+        for byte in byteList:
+            os.write(file,byte)
+    except: 
+        print("Failed to write to SPI")
     fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
     fillGlassAnimation()
     root.after(10000,homeMenu)
