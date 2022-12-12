@@ -296,7 +296,7 @@ def glassRegistered():
     #try:
     file = os.open("/dev/spi_drv0", os.O_RDWR)
     SPI_Status = (os.read(file,16))
-    SPI_Decoded = int.from_bytes(SPI_Status.decode())
+    SPI_Decoded = int.from_bytes(SPI_Status.decode(),byteorder='big')
     print("SPI: status read:" , SPI_Decoded)
 #except:
     print("Failed to read from SPI")
