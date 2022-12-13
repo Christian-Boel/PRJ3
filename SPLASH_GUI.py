@@ -6,7 +6,8 @@ import os
 testmode = 1 #used for testing
 
 root = tk.Tk()
-animationCanvas = tk.Canvas(root,width = 200, height=200)
+root.title("SPLASH")
+root.geometry("800x430")
 
 buttonColor = "#2596be"
 headerFont = 'Arial 75 bold'
@@ -14,8 +15,7 @@ normalFont = 'Arial 25'
 mediumFont = 'Arial 20'
 smallFont = 'Arial 15'
 
-root.title("SPLASH")
-root.geometry("800x430")
+
 
 #Drink class - used for storing values
 class Drink():
@@ -76,7 +76,7 @@ def btnPressed(btnValue):
             homeMenu()
         if btnValue =="Small" or btnValue=="Medium" or btnValue=="Large":
             global sizeSelected
-            sizeSelected = btnValue
+            sizeSelected = btnValue #setDrinkSize
             mixDrinkMenu()
         if btnValue == "mixDrinkConfirm":
             pourDrink()
@@ -85,7 +85,7 @@ def btnPressed(btnValue):
 def drinkBtnPressed(drink,remove,index):
     if(remove == 0):
         global drinkSelected
-        drinkSelected = drink
+        drinkSelected = drink #setDrinkChoice
         placeGlassMenu()
     else: 
         del drinkList[index]
@@ -278,8 +278,6 @@ def placeGlassMenu():
     label = tk.Label(text = "Placer glas på vægten",font = "arial 30 bold")
     label.place(rely = 0.1, relx = 0.3)
     placeGlassLabel.place(rely = 0.5, relx = 0.5, anchor="center")
-    #animationCanvas.place(relx = 0.5,rely = 0.5, anchor = "center")
-    #root.after(5000,homeMenu())
     placeGlassAnimation1()
 
 def placeGlassAnimation1():
