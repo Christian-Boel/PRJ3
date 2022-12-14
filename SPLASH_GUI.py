@@ -163,14 +163,6 @@ def homeMenu():
     addDrinkButton.place(rely = 0.4,relx=0.375, height = 200, width = 200)
     removeDrinkButton.place(rely = 0.4,relx=0.675, height = 200, width = 200)
 
-def mixDrinkMenu():
-    clearScreen()
-    displayMenuButtons()
-    updateDrinkButtons(False)
-    displayDrinkButtons()
-    label = tk.Label(text = "Select a drink: ", font = "arial 30 bold")
-    label.place(rely = 0.05, relx =0.35)
-
 def removeDrinkMenu():
     clearScreen()
     displayMenuButtons()
@@ -245,6 +237,14 @@ def drinkSizeMenu():
     button2.place(rely = 0.4,relx=0.4, height = 175, width = 175)
     button3.place(rely = 0.4,relx=0.7, height = 175, width = 175)
     
+def mixDrinkMenu():
+    clearScreen()
+    displayMenuButtons()
+    updateDrinkButtons(False)
+    displayDrinkButtons()
+    label = tk.Label(text = "Select a drink: ", font = "arial 30 bold")
+    label.place(rely = 0.05, relx =0.35)
+
 def mixDrinkDisplaySelectionMenu():
     global drinkSelected
     clearScreen()
@@ -271,30 +271,33 @@ def placeGlassMenu():
     label = tk.Label(text = "Placer glas på vægten",font = "arial 30 bold")
     label.place(rely = 0.1, relx = 0.3)
     placeGlassLabel.place(rely = 0.5, relx = 0.5, anchor="center")
+    placeGlassAnimation()
+
+def placeGlassAnimation(): 
+    global placeGlassLabel
+    def placeGlassAnimation1():
+        placeGlassLabel.configure(image = glass_img1)
+        root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation2)
+    def placeGlassAnimation2():
+        placeGlassLabel.configure(image = glass_img2)
+        root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation1)
     placeGlassAnimation1()
 
-def placeGlassAnimation1():
-    global placeGlassLabel
-    placeGlassLabel.configure(image = glass_img1)
-    root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation2)
-def placeGlassAnimation2():
-    global placeGlassLabel
-    placeGlassLabel.configure(image = glass_img2)
-    root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation1)
 
 def glassRegistered() -> bool:
     if testmode:
         return True
-    #SPI_Decoded = testmode #read spi
-    #try:
-    file = os.open("/dev/spi_drv0", os.O_RDWR)
-    SPI_Status = (os.read(file,16))
-    SPI_Decoded = SPI_Status.decode()
-    SPI_intversion = int.from_bytes(SPI_Status,byteorder='big')
-    print("SPI: status read:" , SPI_Decoded)
-    #except:
-    #print("Failed to read from SPI")
-    if SPI_Decoded == "1" or SPI_Decoded == " 1" or SPI_Decoded == 1 or SPI_intversion == 1:
+    SPI_Decoded = 0 #read spi
+    SPI_int = 0
+    try:
+        file = os.open("/dev/spi_drv0", os.O_RDWR)
+        SPI_Status = (os.read(file,16))
+        SPI_Decoded = SPI_Status.decode()
+        SPI_int = int.from_bytes(SPI_Status,byteorder='big')
+        print("SPI: status read:" , SPI_Decoded)
+    except:
+        print("Failed to read from SPI")
+    if SPI_Decoded == "1" or SPI_Decoded == " 1" or SPI_Decoded == 1 or SPI_int == 1:
         return True
     else:
         return False
@@ -313,10 +316,7 @@ def pourDrink():
         byteList = [str.encode(str(sizeVal| 128)), str.encode(str(drinkSelected.colaRatio|128)),str.encode(str(drinkSelected.rumRatio|128)),str.encode(str((drinkSelected.vodkaRatio|128)))]
         for byte in byteList:
             os.write(file,byte)
-            print("Sending with SPI: ",byteList.decode())
-        
-
-        
+            print("Sending with SPI: ", byteList.decode())
     except: 
         print("Failed to write to SPI")
     fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
