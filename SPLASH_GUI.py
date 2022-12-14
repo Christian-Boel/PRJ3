@@ -85,6 +85,7 @@ def drinkBtnPressed(drink:Drink,remove:bool,index:int):
         homeMenu()
 
 def updateDrinkButtons(remove:bool):
+    print("Update drink buttons called")
     drinkButtonList.clear()
     for i,drink in enumerate(drinkList): #create button for every drink
         drinkButtonList.append(tk.Button(text=drink.name,bg =  "#581105", fg = "white", font=smallFont, command = lambda drink=drink: drinkBtnPressed(drink,remove,i)))
@@ -95,6 +96,7 @@ def updateDrinkButtons(remove:bool):
                 drinkButtonList[i].configure(bg = "grey")
         
 def updateSliderValueList():
+    print("Update slider values called")
     sliderValueList.clear()
     totalpercentage = 0
     for i in range(len(sliderList)):
@@ -140,14 +142,17 @@ fillGlassLabel = tk.Label(image=fillglass_img1)
 
 #Functions for displaying various menues
 def clearScreen():
+    print("Clear screen called")
     for widget in root.winfo_children():
         widget.place_forget()
 
 def displayMenuButtons():
+    print("Display menu buttons called")
     home_button.place(y = 350,x = 0)
    #back_button.place(y=400,x = 720)
 
 def displayDrinkButtons():
+    print("Display drink buttons called")
     #mapping x and y positions for button placement
     xpos = [0.1, 0.3, 0.5, 0.7, 0.1, 0.3, 0.5, 0.7]
     ypos = [0.2, 0.2, 0.2, 0.2, 0.5, 0.5, 0.5, 0.5]
@@ -157,6 +162,7 @@ def displayDrinkButtons():
             drinkBtn.place(rely=ypos[i],relx = xpos[i],height = 100, width = 150)
 
 def homeMenu():
+    print("Entering home menu")
     clearScreen()
     Header.place(rely = 0.2, relx=0.5, anchor = "center")
     mixDrinkButton.place(rely = 0.4,relx=0.075, height = 200, width = 200)
@@ -164,12 +170,16 @@ def homeMenu():
     removeDrinkButton.place(rely = 0.4,relx=0.675, height = 200, width = 200)
 
 def removeDrinkMenu():
+    print("Entering remove drink menu")
     clearScreen()
     displayMenuButtons()
     updateDrinkButtons(True)
     displayDrinkButtons()
+    label = tk.Label(text = "Remove a drink: ", font = "arial 30 bold")
+    label.place(rely = 0.1, relx =0.5,anchor= "center")
 
 def addDrinkMenu():
+    print("Entering add drink menu")
     clearScreen()
     displayMenuButtons()
 
@@ -207,6 +217,7 @@ def addDrinkMenu():
     nameEntry.place(relx = 0.4, rely = 0.2)
 
 def addDrinkConfirmationMenu():
+    print("Entering add drink confirmation menu")
     clearScreen()
     confirmButton = tk.Button(text="CONFIRM",font = smallFont,bg = "green",
     command = lambda: btnPressed("addDrinkConfirm"))
@@ -225,6 +236,7 @@ def addDrinkConfirmationMenu():
     confirmButton.place(relx = 0.4,rely = 0.72, height=75, width=150)
 
 def drinkSizeMenu():
+    print("Entering drink size menu")
     clearScreen()
     displayMenuButtons()
     label = tk.Label(text="Choose a drink size",font="arial 30 bold")
@@ -238,14 +250,16 @@ def drinkSizeMenu():
     button3.place(rely = 0.4,relx=0.7, height = 175, width = 175)
     
 def mixDrinkMenu():
+    print("Entering mix drink menu")
     clearScreen()
     displayMenuButtons()
     updateDrinkButtons(False)
     displayDrinkButtons()
     label = tk.Label(text = "Select a drink: ", font = "arial 30 bold")
-    label.place(rely = 0.05, relx =0.35)
+    label.place(rely = 0.1, relx =0.5,anchor= "center")
 
 def mixDrinkDisplaySelectionMenu():
+    print("Entering mix drink diplay selection menu")
     global drinkSelected
     clearScreen()
     displayMenuButtons()
@@ -266,6 +280,7 @@ def mixDrinkDisplaySelectionMenu():
     confirmButton.place(relx = 0.4,rely = 0.72, height=75, width=150)
 
 def placeGlassMenu():
+    print("Entering placeglass menu")
     clearScreen()
     displayMenuButtons()
     label = tk.Label(text = "Placer glas på vægten",font = "arial 30 bold")
@@ -273,7 +288,8 @@ def placeGlassMenu():
     placeGlassLabel.place(rely = 0.5, relx = 0.5, anchor="center")
     placeGlassAnimation()
 
-def placeGlassAnimation(): 
+def placeGlassAnimation():
+    print("Starting place glass animation") 
     global placeGlassLabel
     def placeGlassAnimation1():
         placeGlassLabel.configure(image = glass_img1)
@@ -303,11 +319,11 @@ def glassRegistered() -> bool:
         return False
 
 def pourDrink():
+    print("Pouring drink!")
     clearScreen()
     displayMenuButtons()
     label = tk.Label(text="Pouring drink",font="arial 30 bold")
     label.place(relx = 0.5, rely = 0.1, anchor = "center")
-    print("Pouring drink!")
     #spi send 
     try: 
         file = os.open("/dev/spi_drv0", os.O_RDWR)
@@ -325,6 +341,7 @@ def pourDrink():
     #homeMenu()
 
 def fillGlassAnimation():
+    print("Starting fill glass animation")
     global fillGlassLabel
     def fillGlassAnimation1():
         fillGlassLabel.configure(image = fillglass_img1)
