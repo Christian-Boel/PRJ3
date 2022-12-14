@@ -15,8 +15,6 @@ normalFont = 'Arial 25'
 mediumFont = 'Arial 20'
 smallFont = 'Arial 15'
 
-
-
 #Drink class - used for storing values
 class Drink():
     def __init__(self,name:str,colaRatio:float,rumRatio:float,vodkaRatio:float):
@@ -24,12 +22,6 @@ class Drink():
         self.colaRatio = colaRatio
         self.rumRatio = rumRatio
         self.vodkaRatio = vodkaRatio
-    def setRatio(self,colaRatio,rumRatio,vodkaRatio):
-        self.colaRatio = colaRatio
-        self.rumRatio = rumRatio
-        self.vodkaRatio = vodkaRatio
-    def setName(self,name):
-        self.name = name
 
 #global variables
 #drink lists
@@ -40,6 +32,7 @@ drinkButtonList = []
 sliderList = []
 sliderLabelList = []
 sliderValueList = []
+nameVar = tk.StringVar() 
 
 #Predefined drinks
 drinkList.append(Drink("Rum and Coke",80,20,0))
@@ -47,17 +40,16 @@ drinkList.append(Drink("Vodka and Coke",80,0,20))
 drinkList.append(Drink("Super Mix ", 70,15,15))
 drinkList.append(Drink("Oliver Special", 40,50,10))
 drinkList.append(Drink("Quad Spejlæg",20,20,60))
-nameVar = tk.StringVar()
 
 #addional variables
 colaContainerEmpty = False
 vodkaContainerEmpty = False
-rumContainerEmpty = False
+rumContainerEmpty = False   
 sizeSelected = "Small"
 drinkSelected = drinkList[0] #default
 
 #Default button handler
-def btnPressed(btnValue): 
+def btnPressed(btnValue:str): 
         if btnValue == "home":
             homeMenu()
         if btnValue == "mix":
@@ -82,7 +74,7 @@ def btnPressed(btnValue):
             pourDrink()
 
 #Button handler for mix drink and remove drink menues
-def drinkBtnPressed(drink,remove,index):
+def drinkBtnPressed(drink:Drink,remove:bool,index:int):
     if(remove == 0):
         global drinkSelected
         drinkSelected = drink #setDrinkChoice
@@ -96,8 +88,9 @@ def updateDrinkButtons(remove:bool):
     drinkButtonList.clear()
     for i,drink in enumerate(drinkList): #create button for every drink
         drinkButtonList.append(tk.Button(text=drink.name,bg =  "#581105", fg = "white", font=smallFont, command = lambda drink=drink: drinkBtnPressed(drink,remove,i)))
+        #check for empty containers 
         if((colaContainerEmpty and drink.colaRatio > 0) or (rumContainerEmpty and drink.rumRatio > 0) or (vodkaContainerEmpty and drink.vodkaRatio > 0)):
-            drinkButtonList[i].configure(command=None)
+            drinkButtonList[i].configure(command=None) 
             if(remove != 1):
                 drinkButtonList[i].configure(bg = "grey")
         
@@ -289,7 +282,7 @@ def placeGlassAnimation2():
     placeGlassLabel.configure(image = glass_img2)
     root.after(1000,mixDrinkDisplaySelectionMenu if glassRegistered() else placeGlassAnimation1)
 
-def glassRegistered():
+def glassRegistered() -> bool:
     if testmode:
         return True
     #SPI_Decoded = testmode #read spi
@@ -320,7 +313,9 @@ def pourDrink():
         byteList = [str.encode(str(sizeVal| 128)), str.encode(str(drinkSelected.colaRatio|128)),str.encode(str(drinkSelected.rumRatio|128)),str.encode(str((drinkSelected.vodkaRatio|128)))]
         for byte in byteList:
             os.write(file,byte)
-        print(byteList.decode())
+            print("Sending with SPI: ",byteList.decode())
+        
+
         
     except: 
         print("Failed to write to SPI")
