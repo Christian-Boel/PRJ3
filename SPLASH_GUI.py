@@ -3,7 +3,7 @@ from PIL import ImageTk,Image
 import time
 import os
 
-testmode = 1 #used for testing
+testmode = 1 #used for testing.
 
 root = tk.Tk()
 root.title("SPLASH")
