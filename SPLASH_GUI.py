@@ -110,18 +110,6 @@ def updateSliderValueList():
             #setting values to add up to 100%
             sliderValueList[i] /= (totalpercentage/100)
 
-#Homescreen and menu buttons
-Header = tk.Label(text="SPLASH",font=headerFont,foreground="black")
-mixDrinkButton = tk.Button(text="MIX DRINK",font = smallFont,bg=buttonColor,
-command=lambda: btnPressed("mix"))
-
-addDrinkButton = tk.Button(text="ADD DRINK",font = smallFont,bg=buttonColor,
-command=lambda: btnPressed("add"))
-
-removeDrinkButton = tk.Button(text="REMOVE DRINK",font = smallFont,bg=buttonColor,
-command=lambda: btnPressed("remove"))
-
-#ÆNDRE STIEN HVIS DER ER COMPILER FEJL 
 home_img = ImageTk.PhotoImage(Image.open(r"icons/white_homeicon_80x80.png"))
 home_button = tk.Button(image=home_img,
 command= lambda: btnPressed("home")
@@ -162,6 +150,15 @@ def displayDrinkButtons():
             drinkBtn.place(rely=ypos[i],relx = xpos[i],height = 100, width = 150)
 
 def homeMenu():
+    #Homescreen and menu buttons
+    Header = tk.Label(text="SPLASH",font=headerFont,foreground="black")
+    mixDrinkButton = tk.Button(text="MIX DRINK",font = smallFont,bg=buttonColor,
+    command=lambda: btnPressed("mix"))
+    addDrinkButton = tk.Button(text="ADD DRINK",font = smallFont,bg=buttonColor,
+    command=lambda: btnPressed("add"))
+    removeDrinkButton = tk.Button(text="REMOVE DRINK",font = smallFont,bg=buttonColor,
+    command=lambda: btnPressed("remove"))
+
     print("Entering home menu")
     clearScreen()
     Header.place(rely = 0.2, relx=0.5, anchor = "center")
@@ -219,8 +216,7 @@ def addDrinkMenu():
 def addDrinkConfirmationMenu():
     print("Entering add drink confirmation menu")
     clearScreen()
-    confirmButton = tk.Button(text="CONFIRM",font = smallFont,bg = "green",
-    command = lambda: btnPressed("addDrinkConfirm"))
+    confirmButton = tk.Button(text="CONFIRM",font = smallFont,bg = "green",command = lambda: btnPressed("addDrinkConfirm"))
     displayMenuButtons()
     label = tk.Label(text = "Ingredients selected:", font = "arial 20 bold")
     label1 = tk.Label(text = "Cola: " + str(round(sliderValueList[0],1)) + " %",font = mediumFont)
@@ -313,7 +309,7 @@ def glassRegistered() -> bool:
         print("SPI: status read:" , SPI_Decoded)
     except:
         print("Failed to read from SPI")
-    if SPI_Decoded == "1" or SPI_Decoded == " 1" or SPI_Decoded == 1 or SPI_int == 1:
+    if SPI_Decoded == "255" or SPI_Decoded == " 255" or SPI_int == 255: 
         return True
     else:
         return False
