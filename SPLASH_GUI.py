@@ -88,7 +88,7 @@ def updateDrinkButtons(remove:bool):
     print("Update drink buttons called")
     drinkButtonList.clear()
     for i,drink in enumerate(drinkList): #create button for every drink
-        drinkButtonList.append(tk.Button(text=drink.name,bg =  "#581105", fg = "white", font=smallFont, command = lambda drink=drink: drinkBtnPressed(drink,remove,i)))
+        drinkButtonList.append(tk.Button(text=drink.name,bg =  "#581105", fg = "white", font=smallFont, command = lambda drink=drink,i=i: drinkBtnPressed(drink,remove,i)))
         #check for empty containers 
         if((colaContainerEmpty and drink.colaRatio > 0) or (rumContainerEmpty and drink.rumRatio > 0) or (vodkaContainerEmpty and drink.vodkaRatio > 0)):
             drinkButtonList[i].configure(command=None) 
@@ -325,16 +325,16 @@ def pourDrink():
         file = os.open("/dev/spi_drv0", os.O_RDWR)
         sizeVal = 1 if "Small" else 2 if "Medium" else 3
         #convert to string then to byte
-        byteList = [str.encode(str(sizeVal| 128)), str.encode(str(drinkSelected.colaRatio|128)),str.encode(str(drinkSelected.rumRatio|128)),str.encode(str((drinkSelected.vodkaRatio|128)))]
+        byteList = [str.encode(str(sizeVal| 128)), str.encode(str(drinkSelected.colaRatio|128)),
+        str.encode(str(drinkSelected.rumRatio|128)),str.encode(str((drinkSelected.vodkaRatio|128)))]
         for byte in byteList:
             os.write(file,byte)
-            print("Sending with SPI: ", byteList.decode())
+            print("Sending with SPI: ", byte.decode())
     except: 
         print("Failed to write to SPI")
     fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
     fillGlassAnimation()
     root.after(10000,homeMenu)
-    #homeMenu()
 
 def fillGlassAnimation():
     print("Starting fill glass animation")
