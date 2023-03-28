@@ -2,26 +2,23 @@ import tkinter as tk
 from PIL import ImageTk,Image
 import time
 import os
-
-testmode = 1 #used for testing.
+from drink import Drink
+from constants import buttonColor,headerFont,normalFont,mediumFont,smallFont,testmode
 
 root = tk.Tk()
 root.title("SPLASH")
 root.geometry("800x430")
 
-buttonColor = "#2596be"
-headerFont = 'Arial 75 bold'
-normalFont = 'Arial 25'
-mediumFont = 'Arial 20'
-smallFont = 'Arial 15'
+#img paths
+glass_img1 = ImageTk.PhotoImage(Image.open(r"icons/glassIcon1.png"))
+glass_img2 = ImageTk.PhotoImage(Image.open(r"icons/glassIcon2.png"))
+placeGlassLabel = tk.Label(image=glass_img1) # used for animation
 
-#Drink class - used for storing values
-class Drink():
-    def __init__(self,name:str,colaRatio:float,rumRatio:float,vodkaRatio:float):
-        self.name = name
-        self.colaRatio = colaRatio
-        self.rumRatio = rumRatio
-        self.vodkaRatio = vodkaRatio
+fillglass_img1 = ImageTk.PhotoImage(Image.open(r"icons/Glass empty.png"))
+fillglass_img2 = ImageTk.PhotoImage(Image.open(r"icons/Glass third full.png"))
+fillglass_img3 = ImageTk.PhotoImage(Image.open(r"icons/Glass third empty.png"))
+fillglass_img4 = ImageTk.PhotoImage(Image.open(r"icons/Glass full.png"))
+fillGlassLabel = tk.Label(image=fillglass_img1)
 
 #global variables
 #drink lists
@@ -114,19 +111,6 @@ home_img = ImageTk.PhotoImage(Image.open(r"icons/white_homeicon_80x80.png"))
 home_button = tk.Button(image=home_img,
 command= lambda: btnPressed("home")
 )
-
-# back_img = ImageTk.PhotoImage(Image.open(r"icons/arrow_original_80x80.png"))
-# back_button = tk.Button(image=back_img)
-
-glass_img1 = ImageTk.PhotoImage(Image.open(r"icons/glassIcon1.png"))
-glass_img2 = ImageTk.PhotoImage(Image.open(r"icons/glassIcon2.png"))
-placeGlassLabel = tk.Label(image=glass_img1) # used for animation
-
-fillglass_img1 = ImageTk.PhotoImage(Image.open(r"icons/Glass empty.png"))
-fillglass_img2 = ImageTk.PhotoImage(Image.open(r"icons/Glass third full.png"))
-fillglass_img3 = ImageTk.PhotoImage(Image.open(r"icons/Glass third empty.png"))
-fillglass_img4 = ImageTk.PhotoImage(Image.open(r"icons/Glass full.png"))
-fillGlassLabel = tk.Label(image=fillglass_img1)
 
 #Functions for displaying various menues
 def clearScreen():
@@ -320,8 +304,13 @@ def pourDrink():
     displayMenuButtons()
     label = tk.Label(text="Pouring drink",font="arial 30 bold")
     label.place(relx = 0.5, rely = 0.1, anchor = "center")
-    #spi send 
-    try: 
+    SPI_Write()
+    fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
+    fillGlassAnimation()
+    root.after(10000,homeMenu)
+
+def SPI_Write():
+    try:
         file = os.open("/dev/spi_drv0", os.O_RDWR)
         sizeVal = 1 if "Small" else 2 if "Medium" else 3
         #convert to string then to byte
@@ -332,10 +321,8 @@ def pourDrink():
             print("Sending with SPI: ", byte.decode())
     except: 
         print("Failed to write to SPI")
-    fillGlassLabel.place(rely = 0.5, relx = 0.5, anchor = "center")
-    fillGlassAnimation()
-    root.after(10000,homeMenu)
 
+x
 def fillGlassAnimation():
     print("Starting fill glass animation")
     global fillGlassLabel
@@ -352,7 +339,7 @@ def fillGlassAnimation():
         fillGlassLabel.configure(image = fillglass_img4)
         root.after(600,fillGlassAnimation1)
     fillGlassAnimation1()
-    
+
 #run program - start in home menu
 homeMenu()
 root.mainloop()
